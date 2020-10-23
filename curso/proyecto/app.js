@@ -2,11 +2,21 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var app = express();
 var mongoose = require("mongoose");//mapeando una clase que es un modelo con una tabla.
+// ¿Qué es la Mongoose? Mangosta es un Object Document Mapper (ODM).
+// Esto significa que Mongoose le permite definir objetos con un esquema fuertemente tipado
+// que se asigna a un documento MongoDB. Mongoose proporciona una increíble cantidad de funcionalidades
+// para crear y trabajar con esquemas.
 var Schema = mongoose.Schema;
 
 mongoose.connect("mongodb://localhost:27017/fotos",
  {useNewUrlParser: true}) .then(() => { console.log("La Conexion a MongoDB se ha realizado Conrrectamente!!"); }) .catch(err => console.log(err));
 
+
+ //los esquemas corresponden a una coleccion a la base de datos en mongodb, la funcionalidad 
+ //de los esquemas es definir la forma que tienen nuestros documentos en la coleccion de mongo
+
+ //esquema => colecciones => tablas
+ //documentos => filas
 var userSchemaJSON = {
     email: String,
     password: String
