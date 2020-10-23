@@ -2,8 +2,11 @@ var express = require("express");
 
 var app = express();
 
+//motor de vista
+app.set("view engine","jade");
+
 app.get("/", function (req,res) {
-    res.send("hola mundo");
+    res.render("index");
 });
 
 
