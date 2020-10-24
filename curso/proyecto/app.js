@@ -31,9 +31,10 @@ app.post("/users", function(req,res){
     // console.log("Email :" + req.body.email);
     // console.log("Contraseña :" + req.body.password);
 
-    var user = new User({email: req.body.email,
+    var user = new User({   email: req.body.email,
                             password: req.body.password,
-                            password_confirmation : req.body.password_confirmation
+                            password_confirmation : req.body.password_confirmation,
+                            username: req.body.username
                         });
     console.log(user.password_confirmation);
 
