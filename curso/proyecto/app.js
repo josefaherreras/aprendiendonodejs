@@ -38,7 +38,12 @@ app.post("/users", function(req,res){
     console.log(user.password_confirmation);
 
     //guardar usuario
-    user.save(function(){
+    //funcion asincrona
+    //callback
+    user.save(function(err){
+        if(err){
+            console.log(String(err));
+        }
         res.send("Guardamos tus datos");
     });
 });

@@ -14,15 +14,18 @@ mongoose.connect("mongodb://localhost:27017/fotos",
   { console.log("La Conexion a MongoDB se ha realizado Conrrectamente!!"); }) .catch(err => console.log(err));
 
 
+var sex_validate = ["M","F"];
+var email_match = [/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,"Correo invalido"];
 //esquema
 var user_schema = new Schema({
     name: String,
     last_name: String,
-    username: String,
-    password: String,
-    age: Number,
-    email: String,
-    date_of_birth: Date
+    username: {type:String, maxlength:[30,"Su nombre de usuario es muy largo"]},
+    password: {type: String, minlength:[8,"La contraseña es muy corta"]},
+    age: {type: Number ,min:[5,"La edad no puede ser menor que 5"] ,max:[100,"La edad no puede ser máximo de 100"]},
+    email: {type: String , required : "El correo es obligatorio",match:email_match},
+    date_of_birth: Date,
+    sex: {value:{type: String,enum:sex_validate, menssage:"Opción no valida"}}
 });//crear objeto / estructura de nuestra tabla
 
 
