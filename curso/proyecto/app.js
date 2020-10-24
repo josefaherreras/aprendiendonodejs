@@ -20,13 +20,20 @@ app.get("/", function (req,res) {
     res.render("index");
 });
 
+//iniciar sesion
 app.get("/login", function (req,res) {
+        res.render("login");
+});
+//registro
+app.get("/signup", function (req,res) {
     User.find(function(err,doc){
         console.log(doc);
-        res.render("login");
+        res.render("signup");
     })
 });
 
+
+//crear usuario
 app.post("/users", function(req,res){
     // console.log("Email :" + req.body.email);
     // console.log("Contraseña :" + req.body.password);
@@ -82,6 +89,18 @@ app.post("/users", function(req,res){
 
 });
 
+
+
+app.post("/sessions", function(req,res){
+    //find() -> nos devuelve una coleccion, conjunto un arreglo , que cumple con la condicion
+    //findOne() -> solo devuelve un objeto, un documento
+    User.findOne({email:req.body.email , password: req.body.password },function(err,docs){
+        console.log(docs);
+        res.send("hola mundo");
+    });
+
+
+});
 
 //servidor
 app.listen(8080); //callback
