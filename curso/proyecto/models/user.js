@@ -27,7 +27,7 @@ var password_validate = {
 };
 
 
-//esquema
+//esquima
 var user_schema = new Schema({
     name: String,
     last_name: String,
