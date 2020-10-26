@@ -1,3 +1,28 @@
-body{
-    background-color: whitesmoke;
+.margin-space{
+    margin-right: 1em;
+}
+
+.remove-float{
+    float: none;
+}
+
+.top-space{
+    margin-top: 1.5em;
+}
+
+.big-top-space{
+    margin-top: 200px;
+}
+
+
+/*login*/
+.login{
+    margin-right:auto;
+    margin-left: auto;
+}
+
+/*registro*/
+.registro{
+    margin-right:auto;
+    margin-left: auto;
 }

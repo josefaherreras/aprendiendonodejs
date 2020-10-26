@@ -10,7 +10,7 @@ var app = express();
 
 
  //middlewares
-app.use(express.static('public'));//archivos que no cambian , son estaticos
+ app.use("/estatico", express.static('public'));//archivos que no cambian , son estaticos
 
 app.use(bodyParser.json());//extraer parametros / peticiones application/json
 app.use(bodyParser.urlencoded({extended: true}));// parsing de la libreria 
@@ -114,7 +114,7 @@ app.post("/sessions", function(req,res){
     User.findOne({email:req.body.email , password: req.body.password },function(err,User){
         //console.log(user);
         req.session.user_id = User._id;
-        res.send("hola mundo");
+        res.redirect("/app");
     });
 
 
