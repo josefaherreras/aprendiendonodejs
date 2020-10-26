@@ -4,6 +4,7 @@ var session = require("express-session");
 //retornando : module.exports.User= User;
 var User = require("./models/user").User; //nos devuelve todo el objeto
 var router_app = require("./routes_app");
+var session_middleware = require("./middleware/session");
 
 var app = express();
 
@@ -119,7 +120,7 @@ app.post("/sessions", function(req,res){
 
 });
 
-
+app.use("/app", session_middleware);
 app.use("/app", router_app);
 
 //servidor
