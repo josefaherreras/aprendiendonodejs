@@ -1,8 +1,11 @@
 var express = require("express");
 var bodyParser = require("body-parser");
-var app = express();
+var session = require("express-session");
 //retornando : module.exports.User= User;
 var User = require("./models/user").User; //nos devuelve todo el objeto
+
+
+var app = express();
 
 
  //middlewares
@@ -11,12 +14,25 @@ app.use(express.static('public'));//archivos que no cambian , son estaticos
 app.use(bodyParser.json());//extraer parametros / peticiones application/json
 app.use(bodyParser.urlencoded({extended: true}));// parsing de la libreria 
 
+//middlewares session
+//npm install express-session --save
+//esto ya nos permite armacenar sesiones
+app.use(session({
+    //unico parametro requerido , que nos permite generar identificadores unicos. para que no haya conflicto
+    secret:"fygUmlpIFSaNG5j1",
+    //si la sesion debe volverse a guardar al momento que haya una modificacion
+    resave: false,
+    //sesion nueva 
+    saveUninitialized: false
+}));
+
 
 //motor de vista
 app.set("view engine","jade");
 
 //declarar ruta con express
 app.get("/", function (req,res) {
+    console.log(req.session.user_id);
     res.render("index");
 });
 
@@ -94,8 +110,9 @@ app.post("/users", function(req,res){
 app.post("/sessions", function(req,res){
     //find() -> nos devuelve una coleccion, conjunto un arreglo , que cumple con la condicion
     //findOne() -> solo devuelve un objeto, un documento
-    User.findOne({email:req.body.email , password: req.body.password },function(err,docs){
-        console.log(docs);
+    User.findOne({email:req.body.email , password: req.body.password },function(err,User){
+        //console.log(user);
+        req.session.user_id = User._id;
         res.send("hola mundo");
     });
 
