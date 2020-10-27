@@ -3,7 +3,7 @@ extends ../../layout.jade
 block contenido
     div(class="login col-md-6 remove-float center-block  big-top-space")
         h1 Subir nueva Imagen
-            form(action="/app/imagenes", method="POST")
+        form(action="/app/imagenes", method="POST")
                 div(class="form-group")
                     label(for="title") Títutlo
                     input(type="text", name="title" placeholder="Títutlo de la imagen" id="title" class="form-control")
@@ -13,3 +13,4 @@ block contenido
                     div(class="top-space")
                         input(type="submit", value="Iniciar Sesión" class="btn btn-info btn-block")
     
+            

@@ -42,9 +42,12 @@ router.route("/imagenes/:id")
 
 //coleccion de imagenes 
 //obtener todas las imagenes
-router.route("/imagenes/")
+router.route("/imagenes")
     .get(function(req,res){
-
+        Imagen.find({}, function(err,imagenes){
+            if(err){res.redirect("/app"); return;}
+            res.render("app/imagenes/index",{imagenes: imagenes });
+        });
     })
 //crear una nueva imagen
     .post(function(req,res){
