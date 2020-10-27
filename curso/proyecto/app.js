@@ -29,7 +29,6 @@ app.use(session({
     saveUninitialized: false
 }));*/
 
-
 //cookie-session
 //a nivel de cliente
 app.use(cookieSession({
