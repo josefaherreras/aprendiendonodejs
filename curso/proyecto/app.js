@@ -1,10 +1,11 @@
 var express = require("express");
 var bodyParser = require("body-parser");
-var session = require("express-session");
+var cookieSession = require("cookie-session");
 //retornando : module.exports.User= User;
 var User = require("./models/user").User; //nos devuelve todo el objeto
 var router_app = require("./routes_app");
 var session_middleware = require("./middleware/session");
+const session = require("express-session");
 
 var app = express();
 
@@ -15,6 +16,7 @@ var app = express();
 app.use(bodyParser.json());//extraer parametros / peticiones application/json
 app.use(bodyParser.urlencoded({extended: true}));// parsing de la libreria 
 
+/*
 //middlewares session
 //npm install express-session --save
 //esto ya nos permite armacenar sesiones
@@ -25,6 +27,15 @@ app.use(session({
     resave: false,
     //sesion nueva 
     saveUninitialized: false
+}));*/
+
+
+//cookie-session
+//a nivel de cliente
+app.use(cookieSession({
+    name: "session",
+    keys: ["llave-1","llave-2"]
+
 }));
 
 
