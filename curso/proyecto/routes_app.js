@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+var Imagen = require("./models/imagenes");
 
 
 
@@ -27,7 +28,9 @@ router.get("/imagenes/:id/edit", function(req,res){
 
 router.route("/imagenes/:id")
     .get(function(req,res){
-
+        Imagen.findById(req.params.id, function(err,imagen){
+            res.render("app/imagenes/show",{imagen : imagen});
+        });
     })
     .put(function(req,res){
 
@@ -45,7 +48,17 @@ router.route("/imagenes/")
     })
 //crear una nueva imagen
     .post(function(req,res){
-
+        var data = {
+            title : req.body.title
+        }
+        var imagen = new Imagen(data);
+        imagen.save(function(err){
+            if(!err){
+                res.redirect("/app/imagenes/"+imagen._id)
+            }else{
+                res.render(err);
+            }
+        });
     });
 
 
