@@ -9,9 +9,15 @@ const session = require("express-session");
 
 var app = express();
 
+//middleware -> parametros que podemos utilizar metodos de http que no implementa el navegador
+//como put y delete
+var methodOverride = require("method-override"); 
+
 
  //middlewares
- app.use("/estatico", express.static('public'));//archivos que no cambian , son estaticos
+app.use("/estatico", express.static('public'));//archivos que no cambian , son estaticos
+
+app.use(methodOverride("_method"));
 
 app.use(bodyParser.json());//extraer parametros / peticiones application/json
 app.use(bodyParser.urlencoded({extended: true}));// parsing de la libreria 
