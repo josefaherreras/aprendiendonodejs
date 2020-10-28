@@ -2,5 +2,6 @@ extends ../../layout.jade
 //identificador
 block contenido
     h1 #{imagen.title}
-    if(typeof imagen.creator != "undefined") return false;
+    img(src="/estatico/imagenes/#{imagen._id}.#{imagen.extension}")
+    if(typeof imagen.creator != "undefined")
         p Por #{imagen.creator.email}

@@ -6,6 +6,7 @@ var User = require("./models/user").User; //nos devuelve todo el objeto
 var router_app = require("./routes_app");
 var session_middleware = require("./middleware/session");
 const session = require("express-session");
+var formidable = require("express-formidable");
 
 var app = express();
 
@@ -42,6 +43,9 @@ app.use(cookieSession({
     keys: ["llave-1","llave-2"]
 
 }));
+
+//leyendo archivos en nuestra aplicación
+app.use(formidable.parse({ keepExtensions: true }));
 
 
 //motor de vista

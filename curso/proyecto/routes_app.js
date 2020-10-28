@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var Imagen = require("./models/imagenes");
+var fs = require("fs");//mover el archivo
 
 var image_finder_middleware = require("./middleware/find_image");
 
@@ -68,19 +69,25 @@ router.route("/imagenes")
     })
 //crear una nueva imagen
     .post(function(req,res){
-        console.log(res.locals.user._id);
+        var extension = req.body.archivo.name.split(".").pop();
+        //console.log(req.files.archivo);
         var data = {
             title : req.body.title,
-            creator: res.locals.user._id
+            creator: res.locals.user._id,
+            extension: extension
         }
         var imagen = new Imagen(data);
         imagen.save(function(err){
-            if(!err){
-                res.redirect("/app/imagenes/"+imagen._id)
-            }else{
+            if (!err) {
+                fs.rename(req.body.archivo.path,"public/imagenes/"+imagen._id+"."+extension,function (err) {
+                  if (err) return console.error(err);
+                  console.log("success!")
+                  res.redirect("/app/imagenes/"+imagen._id);
+                });
+              }else {
                 console.log(imagen);
                 res.render(err);
-            }
+              }
         });
     });
 
