@@ -69,3 +69,16 @@ nav li a:hover{
 .tr:nth-last-of-type(odd){
     background-color: #eee;
 }
+
+
+form.link{
+    display: inline-block;
+}
+
+form.link input{
+    background-color: rgb(200, 50, 50);
+    border: 1px solid rgb(200, 50, 50);
+    border-radius: 18px;
+    color: white;
+    padding: 4px 12px;
+}
