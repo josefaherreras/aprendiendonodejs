@@ -1,12 +1,16 @@
 var express = require("express");
 var bodyParser = require("body-parser");
-var cookieSession = require("cookie-session");
+//var cookieSession = require("cookie-session");
 //retornando : module.exports.User= User;
 var User = require("./models/user").User; //nos devuelve todo el objeto
 var router_app = require("./routes_app");
 var session_middleware = require("./middleware/session");
-const session = require("express-session");
 var formidable = require("express-formidable");
+const redis = require('redis')
+const session = require('express-session')
+
+let RedisStore = require('connect-redis')(session)
+let redisClient = redis.createClient()
 
 var app = express();
 
@@ -38,11 +42,16 @@ app.use(session({
 
 //cookie-session
 //a nivel de cliente
-app.use(cookieSession({
-    name: "session",
-    keys: ["llave-1","llave-2"]
 
-}));
+//Redis 
+var sessionMiddleware = session({
+    resave: false,
+    saveUninitialized: false,
+    store: new RedisStore({ client: redisClient }),
+    secret:"RyveTFB6iQjkdX3H"
+});
+app.use(sessionMiddleware)
+
 
 //leyendo archivos en nuestra aplicación
 app.use(formidable.parse({ keepExtensions: true }));
