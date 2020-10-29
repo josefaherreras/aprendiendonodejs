@@ -6,13 +6,32 @@ var User = require("./models/user").User; //nos devuelve todo el objeto
 var router_app = require("./routes_app");
 var session_middleware = require("./middleware/session");
 var formidable = require("express-formidable");
+
+//redis como un intermediario basado en una arquitectura como pubsub
+//donde uno de los clientes puede publicar , donde el cliente u otro cliente se puede subcribir a las publicaciones
+//que se están haciendo
+//es como si virtualmente estuvieran separados y tuvieran una linea de comunicacionllamada redis
 const redis = require('redis')
 const session = require('express-session')
+let RedisStore = require('connect-redis')(session);
+let redisClient = redis.createClient();
 
-let RedisStore = require('connect-redis')(session)
-let redisClient = redis.createClient()
-
+//server
+var http = require("http");
+var realtime = require("./realtime");
 var app = express();
+//servidor
+var server = http.Server(app);
+//Redis 
+var sessionMiddleware = session({
+    resave: false,
+    saveUninitialized: false,
+    store: new RedisStore({ client: redisClient }),
+    secret:"RyveTFB6iQjkdX3H"
+});
+
+//Compartir sesión entre SocketIO y Express
+realtime(server,sessionMiddleware);
 
 //middleware -> parametros que podemos utilizar metodos de http que no implementa el navegador
 //como put y delete
@@ -43,13 +62,7 @@ app.use(session({
 //cookie-session
 //a nivel de cliente
 
-//Redis 
-var sessionMiddleware = session({
-    resave: false,
-    saveUninitialized: false,
-    store: new RedisStore({ client: redisClient }),
-    secret:"RyveTFB6iQjkdX3H"
-});
+
 app.use(sessionMiddleware)
 
 
@@ -153,4 +166,4 @@ app.use("/app", session_middleware);
 app.use("/app", router_app);
 
 //servidor
-app.listen(8080); //callback
+server.listen(8080); //callback
